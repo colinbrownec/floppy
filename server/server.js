@@ -1,9 +1,11 @@
 var express = require('express');
+var floppy = require('./routes/floppy');
+
 var app = express();
 
-// respond to all HTTP GET requests
-app.all('*', function(req, res) {
-    res.send('Hello <strong>floppy</strong> user!');
+// respond to all HTTP GET requests in /root/
+app.get('/root/*', function(req, res) {
+    floppy.parse(req, res);
 });
 
 // start listening for HTTP requests
