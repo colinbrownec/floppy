@@ -10,7 +10,8 @@ exports.root = function(newroot) {
 
 // parse a url and respond with either the file or directory information
 exports.parse = function(req, res) {
-    var url = path.resolve(root + req.params[0]);
+    console.log(root, req.params);
+    var url = path.resolve(root, req.params[0]);
     
     /* calls are synchronous to immediately handle this request */
     
@@ -26,7 +27,21 @@ exports.parse = function(req, res) {
         // if it is a directory return the contents
         if (stat.isDirectory()) {
             var dir = fs.readdirSync(url);
-            res.send(dir);
+            var results = [];
+            
+            // loop through directory and stat each file
+            for (var i = 0; i < dir.length; i++) {
+                var name = dir[i];
+                var fstat = fs.statSync(path.resolve(url, name));
+                
+                var file = { 'name': name,
+                             'type': fstat.isFile() ? 'file' : 'directory'
+                           };
+                results.push(file);
+            }
+            
+            // send back detailed directory
+            res.send(results);
         }
         
     // else file does not exist and we respond with an error

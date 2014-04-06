@@ -3,8 +3,16 @@ var floppy = require('./routes/floppy');
 
 var app = express();
 
-// respond to all HTTP GET requests in /root/
-app.get('/root/*', function(req, res) {
+// setup cross origin request middleware
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+// respond to all HTTP GET requests in /root/ and /root
+app.get('/root/*', floppy.parse);
+app.get('/root', function(req, res) {
+    req.params = [''];
     floppy.parse(req, res);
 });
 
