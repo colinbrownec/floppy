@@ -1,7 +1,10 @@
 floppy
 ======
 
-**floppy** is a tool to securely access your harddrive, effectively creating your own private cloud. This document could be considered both actual documentation and a tutorial. I'm sure I will eventually come up with a better introduction so let's jump right in.
+**floppy** is a tool to access your harddrive, effectively creating your own private cloud. 
+This document should be considered a type of tutorial. 
+It really isn't meant to serve as a tutorial to any one of the technologies it uses, but more to show the process of making an internet application using these technologies.
+I'm sure I will eventually come up with a better introduction so let's jump right in.
 
 ### Table of Contents
 - [Technologies](#00-technologies)
@@ -253,6 +256,16 @@ This really shouldn't seem that different. Instead of just returning our array o
 
 ![aggregated directory information](images/03.png)
 
+### 3.1 Additional Changes
+There are a couple of other important changes made to `server.js` to smooth out our server. 
+
+1. A change to our application routes. We now have both `/root/*`, to match all file paths; as well as `/root`, to match an explicit navigation to the root directory.
+2. Enabling cross-origin requests. By default, the files that a website accesses for you must be from the same website.
+To get around this safety restriction we must mark our responses as allowed to be cross-origin. 
+This is done using middleware, which will append the necessary cross-origin header to our responses.
+
+Both of these changes are in `server.js` and can be seen in the below commit.
+
 [View Commit](https://github.com/colinbrownec/floppy/commit/a579a3cb5c72ebc829b5e334bfff65236f3de675)
 
 ## 4.0 Client Model
@@ -299,3 +312,9 @@ it also provides the perfect template to make in AngularJS.
 [View Commit](https://github.com/colinbrownec/floppy/commit/4682a1159831f5ec76fa82251b84e79d8de1289e)
 
 ## 5.0 Angular Connection
+Now to connect our client and server!
+For now this our server lives on [localhost:3000](http://locahost:3000), so the only way to connect to our server is to be using the same computer as the server.
+Realisticly this isn't very useful, we want to connect to our server where ever we are.
+This can be done, but we want to be careful about how easy it is to connect to our server.
+
+[View Commit](https://github.com/colinbrownec/floppy/commit/695f150125b9c3e3852f4cc0bcb8e3ab94e3534e)
