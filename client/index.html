@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="floppy-disk">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -12,25 +12,35 @@
     <script src="lib/bootstrap.min.js"></script>
     <link rel="stylesheet" href="lib/bootstrap.min.css" />
     
+    <!-- load our Angular controller -->
+    <script src="js/floppy-disk.js"></script>
+    
 </head>
-<body>
+<body ng-controller="floppy-disk-controller">
     
     <!-- navigation bar for file system -->
     <nav>
     <ol class="breadcrumb" id="breadcrumb">
-        <li><a href="#">root</a></li>
-        <li><a href="#">folder</a></li>
-        <li class="active">sub-folder</li>
+        
+        <!-- bound to array of current working directories -->
+        <li ng-repeat="dir in cwd" ng-click="parent($index);">
+            {{dir}}
+        </li>
     </ol>
     </nav>
     
     <!-- list of directory contents -->
     <div class="list-group" id="links">
-        <a href="#" class="list-group-item">item 1</a>
-        <a href="#" class="list-group-item">item 2</a>
-        <a href="#" class="list-group-item">item 3</a>
-        <a href="#" class="list-group-item">item 4</a>
-    </div> 
+        
+        <!-- bound to array of directory content objects -->
+        <span class="list-group-item" ng-repeat="link in directory track by $id(link)" 
+           ng-click="navigate($index);" style="color:black">
+            <!-- select icon based on link type -->
+            <span class="glyphicon glyphicon-file" ng-if="link.type=='file'"></span>
+            <span class="glyphicon glyphicon-folder-open" ng-if="link.type=='directory'"></span>
+            {{link.name}}
+        </span>
+    </div>
     
 </body>
 </html>
